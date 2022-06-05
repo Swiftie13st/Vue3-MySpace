@@ -1,5 +1,5 @@
 <template>
-  <Contentbase> 首页 </Contentbase>
+  <Contentbase> 好友列表 </Contentbase>
 </template>
 
 <script>
@@ -7,10 +7,14 @@ import Contentbase from "@/components/contentbase.vue";
 // @ is an alias to /src
 
 export default {
-  name: "HomeView",
+  name: "UserList",
   components: {
     Contentbase,
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.container {
+  margin-top: 20px;
+}
+</style>
