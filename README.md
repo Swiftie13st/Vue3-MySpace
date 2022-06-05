@@ -1,24 +1,5 @@
-# myspace
+# MySpace
 
-## Project setup
-```
-npm install
-```
+使用Vue3实现用户空间，具备发帖功能
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![效果图](https://raw.githubusercontent.com/Swiftie13st/Figurebed/main/img/202206051904799.png)
