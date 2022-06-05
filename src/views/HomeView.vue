@@ -1,15 +1,15 @@
 <template>
-  <Contentbase> 首页 </Contentbase>
+  <ContentBase> 首页 </ContentBase>
 </template>
 
 <script>
-import Contentbase from "@/components/contentbase.vue";
+import ContentBase from "@/components/contentbase.vue";
 // @ is an alias to /src
 
 export default {
   name: "HomeView",
   components: {
-    Contentbase,
+    ContentBase,
   },
 };
 </script>

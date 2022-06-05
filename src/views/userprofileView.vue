@@ -1,15 +1,15 @@
 <template>
-  <Contentbase> 好友列表 </Contentbase>
+  <ContentBase> 用户动态 </ContentBase>
 </template>
 
 <script>
-import Contentbase from "@/components/contentbase.vue";
+import ContentBase from "@/components/contentbase.vue";
 // @ is an alias to /src
 
 export default {
   name: "UserProfile",
   components: {
-    Contentbase,
+    ContentBase,
   },
 };
 </script>
