@@ -4,46 +4,88 @@
       <div class="row">
         <!-- 头像 -->
         <div class="col-3">
-          <img class="img-fluid"
+          <img
+            class="img-fluid"
             src="https://raw.githubusercontent.com/Swiftie13st/Figurebed/main/img/202206051712008.png"
             alt=""
           />
         </div>
         <!-- 用户信息 -->
         <div class="col-9">
-            <div class="username">用户名</div>
-            <div class="fans">粉丝数：123</div>
-            <button type="button" class="btn btn-primary btn-sm">关注</button>
+          <div class="username">{{ fullName }}</div>
+          <div class="fans">粉丝数：{{ user.followerCount }}</div>
+          <button
+            @click="follow"
+            v-if="!user.is_followed"
+            type="button"
+            class="btn btn-secondary btn-sm"
+          >
+            关注
+          </button>
+          <button
+            @click="unfollow"
+            v-if="user.is_followed"
+            type="button"
+            class="btn btn-secondary btn-sm"
+          >
+            取关
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-export default {
-    name: "UserProfileInfo",
 
-}
+<script>
+import { computed } from "vue";
+export default {
+  name: "UserProfileInfo",
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup(props, context) {
+    let fullName = computed(
+      () => props.user.lastName + " " + props.user.firstName
+    );
+
+    const follow = () => {
+    //   console.log("follow");
+      context.emit("follow");
+    };
+
+    const unfollow = () => {
+    //   console.log("unfollow");
+      context.emit("unfollow");
+    };
+
+    return {
+      fullName,
+      follow,
+      unfollow,
+    };
+  },
+};
 </script>
 
 <style scoped>
 img {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
-.username{
-    font-weight: bold;
+.username {
+  font-weight: bold;
 }
 
-.fans{
-    font-size: 12px;
-    color: gray;
+.fans {
+  font-size: 12px;
+  color: gray;
 }
 
 button {
-    padding: 2px 4px;
-    font-size: 12px;
+  padding: 2px 4px;
+  font-size: 12px;
 }
-
-
 </style>
