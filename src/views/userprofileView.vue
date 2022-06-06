@@ -1,9 +1,9 @@
 <template>
   <ContentBase>
     <div class="row">
-      <div class="col-3">
+      <div class="col-3 img-field">
         <UserprofileInfo :user="user" @follow="follow" @unfollow="unfollow" />
-        <Userprofilewrite @post_a_post="post_a_post" />
+        <Userprofilewrite v-if="is_me" @post_a_post="post_a_post" />
       </div>
       <div class="col-9">
         <Userprofilepost :posts="posts" />
@@ -19,6 +19,9 @@ import Userprofilepost from "@/components/userprofile/userprofilepost.vue";
 import { reactive } from "vue";
 import Userprofilewrite from "@/components/userprofile/userprofilewrite.vue";
 import { useRoute } from "vue-router";
+import $ from "jquery";
+import { useStore } from "vuex";
+import { computed } from "vue";
 
 export default {
   name: "UserProfile",
@@ -29,17 +32,48 @@ export default {
     Userprofilewrite,
   },
   setup() {
+    const store = useStore();
     const route = useRoute();
-    const userId = route.params.userId;
+    const userId = parseInt(route.params.userId);
     console.log(userId);
-    const user = reactive({
-      id: 1,
-      username: "UserName",
-      lastName: "Bruce",
-      firstName: "S",
-      followerCount: 0,
-      is_followed: false,
+    const user = reactive({});
+    const posts = reactive({});
+    //获取用户信息
+    $.ajax({
+      url: "https://app165.acapp.acwing.com.cn/myspace/getinfo/",
+      type: "GET",
+      data: {
+        user_id: userId,
+      },
+      headers: {
+        Authorization: "Bearer " + store.state.user.access,
+      },
+      success(resp) {
+        // console.log(resp);
+        user.id = resp.id;
+        user.username = resp.username;
+        user.photo = resp.photo;
+        user.followerCount = resp.followerCount;
+        user.is_followed = resp.is_followed;
+      },
     });
+    //获取用户帖子
+    $.ajax({
+      url: "https://app165.acapp.acwing.com.cn/myspace/post/",
+      type: "GET",
+      data: {
+        user_id: userId,
+      },
+      headers: {
+        Authorization: "Bearer " + store.state.user.access,
+      },
+      success(resp) {
+        // console.log(resp);
+        posts.count = resp.length;
+        posts.posts = resp;
+      },
+    });
+
     const follow = () => {
       if (user.is_followed) return;
       user.is_followed = true;
@@ -51,27 +85,6 @@ export default {
       user.followerCount--;
     };
 
-    const posts = reactive({
-      count: 3,
-      posts: [
-        {
-          id: 1,
-          userId: 1,
-          content: "帖子1",
-        },
-        {
-          id: 2,
-          userId: 1,
-          content: "帖子帖子2",
-        },
-        {
-          id: 3,
-          userId: 1,
-          content: "帖子帖子帖子3",
-        },
-      ],
-    });
-
     const post_a_post = (content) => {
       posts.count++;
       posts.posts.unshift({
@@ -81,12 +94,15 @@ export default {
       });
     };
 
+    const is_me = computed(() => userId === store.state.user.id);
+
     return {
       user,
       follow,
       unfollow,
       posts,
       post_a_post,
+      is_me,
     };
   },
 };
