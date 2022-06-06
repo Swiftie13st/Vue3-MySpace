@@ -6,7 +6,11 @@
         <Userprofilewrite v-if="is_me" @post_a_post="post_a_post" />
       </div>
       <div class="col-9">
-        <Userprofilepost :posts="posts" />
+        <Userprofilepost
+          :user="user"
+          :posts="posts"
+          @delete_a_post="delete_a_post"
+        />
       </div>
     </div>
   </ContentBase>
@@ -35,7 +39,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const userId = parseInt(route.params.userId);
-    console.log(userId);
+    // console.log(userId);
     const user = reactive({});
     const posts = reactive({});
     //获取用户信息
@@ -94,6 +98,11 @@ export default {
       });
     };
 
+    const delete_a_post = (post_id) => {
+      posts.posts = posts.posts.filter((post) => post.id !== post_id);
+      posts.count = posts.posts.length;
+    };
+
     const is_me = computed(() => userId === store.state.user.id);
 
     return {
@@ -103,6 +112,7 @@ export default {
       posts,
       post_a_post,
       is_me,
+      delete_a_post,
     };
   },
 };
