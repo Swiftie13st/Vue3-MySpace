@@ -1,5 +1,5 @@
 <template>
-  <ContentBase> 404 </ContentBase>
+  <ContentBase> 404 Not Found </ContentBase>
 </template>
 
 <script>
