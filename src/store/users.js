@@ -24,6 +24,15 @@ const ModuleUser = {
     updateAccess(state, access) {
       state.access = access;
     },
+    logout(state) {
+      state.id = "";
+      state.username = "";
+      state.photo = "";
+      state.followerCount = 0;
+      state.access = "";
+      state.refresh = "";
+      state.is_login = false;
+    },
   },
   actions: {
     login(context, data) {
