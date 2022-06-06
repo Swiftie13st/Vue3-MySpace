@@ -57,7 +57,7 @@ const ModuleUser = {
                 refresh,
               },
               success(resp) {
-                console.log("刷新" + resp);
+                // console.log("刷新" + resp);
                 context.commit("updateAccess", resp.access);
               },
             });
